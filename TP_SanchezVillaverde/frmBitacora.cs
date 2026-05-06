@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Negocio_BLL;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,6 +16,27 @@ namespace TP_SanchezVillaverde
         public frmBitacora()
         {
             InitializeComponent();
+        }
+
+        NegocioBLL negocio = new NegocioBLL();
+
+        private void frmBitacora_Load(object sender, EventArgs e)
+        {
+            dgvBitacora.DataSource = negocio.ListarBitacora();
+            dgvBitacora.Columns[0].HeaderText = "ID Registro";
+            dgvBitacora.Columns[1].HeaderText = "Usuario";
+            dgvBitacora.Columns[2].HeaderText = "Accion";
+            dgvBitacora.Columns[3].HeaderText = "Fecha";
+            dgvBitacora.EnableHeadersVisualStyles = false;
+            dgvBitacora.ColumnHeadersDefaultCellStyle.Font = new Font(dgvBitacora.Font, FontStyle.Bold);
+            dgvBitacora.ReadOnly = true;
+        }
+
+        private void btnSalir_Click(object sender, EventArgs e)
+        {
+            Control control = btnSalir.Parent;
+            frmMenu.opcActivo.BackColor = Color.WhiteSmoke;
+            this.Close();
         }
     }
 }

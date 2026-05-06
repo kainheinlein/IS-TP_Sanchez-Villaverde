@@ -14,6 +14,11 @@ namespace Negocio_BLL
         private MP_Usuario mpUsuario = new MP_Usuario();
         private MP_Bitacora mpBitacora = new MP_Bitacora();
 
+        public List<EventoBE> ListarBitacora()
+        {
+            return mpBitacora.ListarEventos();
+        }
+
         public List<UsuarioBE> ListarUsuarios()
         {
             return mpUsuario.ListarUsuarios();

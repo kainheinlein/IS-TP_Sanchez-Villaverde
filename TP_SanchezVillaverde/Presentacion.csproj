@@ -85,6 +85,9 @@
     <Compile Include="ucAlfaNum.Designer.cs">
       <DependentUpon>ucAlfaNum.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="frmBitacora.resx">
+      <DependentUpon>frmBitacora.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmLogin.resx">
       <DependentUpon>frmLogin.cs</DependentUpon>
     </EmbeddedResource>
