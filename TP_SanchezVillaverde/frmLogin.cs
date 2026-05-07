@@ -20,6 +20,7 @@ namespace TP_SanchezVillaverde
         }
 
         UsuarioBLL usuario = new UsuarioBLL();
+        NegocioBLL negocio = new NegocioBLL();
 
         private void frmLogin_Load(object sender, EventArgs e)
         {
@@ -37,6 +38,7 @@ namespace TP_SanchezVillaverde
             if (MessageBox.Show("¿Esta seguro que desea cerrar la aplicacion?", "Atencion",
             MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
+                negocio.RegistrarBitacora("null", TipoAccion.AppClose);
                 Application.Exit();
             }
             else txtUsuario.Enfocar();
@@ -61,6 +63,7 @@ namespace TP_SanchezVillaverde
                     int authOK = usuario.Login(user);
                     if (authOK == 1)
                     {
+                        negocio.RegistrarBitacora(user.user, TipoAccion.Login);
                         frmMenu frm = new frmMenu();
                         frm.Show();
                         this.Hide();
@@ -73,22 +76,28 @@ namespace TP_SanchezVillaverde
                         switch (authOK)
                         {
                             case 0:
+                                negocio.RegistrarBitacora(user.user, TipoAccion.LoginFail);
                                 lblError.Text = "El usuario ingresado no existe";
                                 break;
                             case 2:
+                                negocio.RegistrarBitacora(user.user, TipoAccion.LoginFail);
                                 lblError.Text = "El usuario se encuentra bloqueado. Contacte al administrador";
                                 break;
                             case 3:
+                                negocio.RegistrarBitacora(user.user, TipoAccion.LoginFail);
                                 lblError.Text = "La contraseña ingresada es incorrecta";
                                 break;
                             case 4:
+                                negocio.RegistrarBitacora(user.user, TipoAccion.LoginFail);
                                 MessageBox.Show($"El usuario -->{user.user}<-- no esta disponible. Contacte al administrador.", "", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                                 break;
                             case 5:
+                                negocio.RegistrarBitacora(user.user, TipoAccion.BloqueoUsuario);
                                 MessageBox.Show("Cantidad de intentos superado, se bloqueo el usuario. Cerrando la aplicacion.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 Application.Exit();
                                 break;
                             case 6:
+                                negocio.RegistrarBitacora(user.user, TipoAccion.Login);
                                 MessageBox.Show($"El usuario -->{user.user}<-- ya tiene la sesion iniciada.", "", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                                 frmMenu frm = new frmMenu();
                                 frm.Show();
@@ -99,6 +108,7 @@ namespace TP_SanchezVillaverde
                             case 7:
                                 if (MessageBox.Show("Ya existe una sesion iniciada, desea finalizarla?", " ", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                                 {
+                                    negocio.RegistrarBitacora(user.user, TipoAccion.Logout);
                                     usuario.Logout();
                                     MessageBox.Show("Sesion cerrada correctamente. Intente nuevamente con su usuario", " ", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                 }
@@ -119,6 +129,7 @@ namespace TP_SanchezVillaverde
 
         private void lblSinConexion_Click(object sender, EventArgs e)
         {
+            negocio.RegistrarBitacora("null", TipoAccion.NoSesion);
             usuario.Logout();
             frmMenu frm = new frmMenu();
             frm.Show();
