@@ -26,7 +26,7 @@ namespace Servicios
         {
             EventoBE evento = new EventoBE();
             evento.usuario = us;
-            evento.accion = accion;
+            evento.accion = accion.ToString();
             evento.fecha = DateTime.Now;
             return evento;
         }

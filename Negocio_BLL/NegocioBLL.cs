@@ -24,9 +24,14 @@ namespace Negocio_BLL
             return mpUsuario.ListarUsuarios();
         }
 
+        public void RegistrarBitacora(string us, TipoAccion acc)
+        {
+            mpBitacora.RegistrarEvento(Bitacora.getInstance().RegistrarEvento(us,acc.ToString()));
+        }
+
         public void RegistrarBitacora(string us, string acc)
         {
-            mpBitacora.RegistrarEvento(Bitacora.getInstance().RegistrarEvento(us,acc));
+            mpBitacora.RegistrarEvento(Bitacora.getInstance().RegistrarEvento(us, acc));
         }
     }
 }
