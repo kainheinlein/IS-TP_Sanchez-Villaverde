@@ -24,9 +24,9 @@ namespace Entidad_BE
 			set { _usuario = value; }
 		}
 
-		private string _accion;
+		private TipoAccion _accion;
 
-		public string accion
+		public TipoAccion accion
 		{
 			get { return _accion; }
 			set { _accion = value; }
@@ -46,7 +46,7 @@ namespace Entidad_BE
 		{
 			this.registro = Convert.ToInt32(datos[0]);
 			this.usuario = datos[3];
-			this.accion = datos[1];
+			this.accion = (TipoAccion)Convert.ToInt32(datos[1]);
 			this.fecha = Convert.ToDateTime(datos[2]);
 			return this;
 		}

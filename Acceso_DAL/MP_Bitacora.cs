@@ -22,7 +22,7 @@ namespace Acceso_DAL
                 EventoBE ev = new EventoBE();
                 ev.registro = Convert.ToInt32(dr[0].ToString());
                 ev.usuario = dr[1].ToString();
-                ev.accion = dr[2].ToString();
+                ev.accion = (TipoAccion)dr[2];
                 ev.fecha = Convert.ToDateTime(dr[3].ToString());
                 eventos.Add(ev);
             }
@@ -33,7 +33,7 @@ namespace Acceso_DAL
         {
             SqlParameter[] parametros = new SqlParameter[3];
             parametros[0] = new SqlParameter("@usuario", ev.usuario);
-            parametros[1] = new SqlParameter("@accion", ev.accion);
+            parametros[1] = new SqlParameter("@accion", (int)ev.accion);
             parametros[2] = new SqlParameter("fecha", ev.fecha);
 
             conexDB.Escribir("SP_RegistrarEvento", parametros);

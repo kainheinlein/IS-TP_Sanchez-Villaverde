@@ -497,7 +497,7 @@ namespace TP_SanchezVillaverde
                             usuarioBLL.CrearUsuario(us);
                             ActualizarDGV();
                             LlenarMensaje($"El usuario -- {us.user} -- fue creado exitosamente");
-                            bitacora.RegistrarBitacora(SessionManager.GetInstance.UsuarioActual().user, TipoAccion.AltaUsuario.ToString() + " " + us.user);
+                            bitacora.RegistrarBitacora(SessionManager.GetInstance.UsuarioActual().user, TipoAccion.AltaUsuario);
                         }
                         catch (Exception ex)
                         {
@@ -514,7 +514,7 @@ namespace TP_SanchezVillaverde
                         usuarioBLL.ActualizarUsuario(us);
                         ActualizarDGV();
                         LlenarMensaje($"Usuario -- {us.user} -- actualizado correctamente");
-                        bitacora.RegistrarBitacora(SessionManager.GetInstance.UsuarioActual().user, TipoAccion.ModificacionUsuario.ToString() + " " + us.user);
+                        bitacora.RegistrarBitacora(SessionManager.GetInstance.UsuarioActual().user, TipoAccion.ModificacionUsuario);
                     }
                     catch (Exception ex)
                     {
@@ -553,7 +553,7 @@ namespace TP_SanchezVillaverde
                     usuarioBLL.EliminarUs(us);
                     ActualizarDGV();
                     LlenarMensaje($"Baja de usuario -- {us.user} -- exitosa");
-                    bitacora.RegistrarBitacora(SessionManager.GetInstance.UsuarioActual().user, TipoAccion.BajaUsuario.ToString() + " " + us.user);
+                    bitacora.RegistrarBitacora(SessionManager.GetInstance.UsuarioActual().user, TipoAccion.BajaUsuario);
                 }
             }
             catch (Exception ex)
@@ -574,7 +574,7 @@ namespace TP_SanchezVillaverde
                     aux.pass = usuarioBLL.GenerarPass(aux.ape, aux.dni.ToString());
                     usuarioBLL.DesbloquearUS(aux);
                     LlenarMensaje("Usuario desbloqueado exitosamente");
-                    bitacora.RegistrarBitacora(SessionManager.GetInstance.UsuarioActual().user, TipoAccion.DesbloqueoUsuario.ToString() + " " + aux.user);
+                    bitacora.RegistrarBitacora(SessionManager.GetInstance.UsuarioActual().user, TipoAccion.DesbloqueoUsuario);
                     ActualizarDGV();
                 }
             }

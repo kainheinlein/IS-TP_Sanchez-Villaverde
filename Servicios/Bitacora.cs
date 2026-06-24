@@ -9,11 +9,11 @@ namespace Servicios
 {
     public class Bitacora
     {
-        public static EventoBE RegistrarEvento(string us, string accion)
+        public static EventoBE RegistrarEvento(string us, TipoAccion accion)
         {
             EventoBE evento = new EventoBE();
             evento.usuario = us;
-            evento.accion = accion.ToString();
+            evento.accion = accion;
             evento.fecha = DateTime.Now;
             return evento;
         }

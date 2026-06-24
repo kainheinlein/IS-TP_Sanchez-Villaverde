@@ -77,7 +77,7 @@ namespace TP_SanchezVillaverde
 
         private void gestionDeUsuariosToolStripMenuItem_Click(object sender, System.EventArgs e)
         {
-            bitacora.RegistrarBitacora(SessionManager.GetInstance.UsuarioActual().user, TipoAccion.GestionUsuariosAbierta.ToString());
+            bitacora.RegistrarBitacora(SessionManager.GetInstance.UsuarioActual().user, TipoAccion.GestionUsuariosAbierta);
             OpenForm(tsAdmin, new frmUsuario());
         }
 
@@ -86,7 +86,7 @@ namespace TP_SanchezVillaverde
             if (MessageBox.Show("¿Esta seguro que desea cerrar la aplicacion?", "Atencion",
             MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                bitacora.RegistrarBitacora(SessionManager.GetInstance.UsuarioActual().user, TipoAccion.AppClose.ToString());
+                bitacora.RegistrarBitacora(SessionManager.GetInstance.UsuarioActual().user, TipoAccion.AppClose);
                 SessionManager.GetInstance.Logout();
                 Application.Exit();
             }
@@ -97,7 +97,7 @@ namespace TP_SanchezVillaverde
             if (MessageBox.Show("¿Esta seguro que desea cerrar la sesion?", "Atencion",
             MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                bitacora.RegistrarBitacora(SessionManager.GetInstance.UsuarioActual().user, TipoAccion.Logout.ToString());
+                bitacora.RegistrarBitacora(SessionManager.GetInstance.UsuarioActual().user, TipoAccion.Logout);
                 UsuarioBLL usuario = new UsuarioBLL();
                 usuario.Logout();
 
@@ -122,7 +122,7 @@ namespace TP_SanchezVillaverde
 
         private void bitacoraToolStripMenuItem_Click(object sender, System.EventArgs e)
         {
-            bitacora.RegistrarBitacora(SessionManager.GetInstance.UsuarioActual().user, TipoAccion.BitacoraAbierta.ToString());
+            bitacora.RegistrarBitacora(SessionManager.GetInstance.UsuarioActual().user, TipoAccion.BitacoraAbierta);
             OpenForm(tsAdmin, new frmBitacora());
         }
     }
