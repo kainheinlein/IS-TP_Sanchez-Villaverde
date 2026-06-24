@@ -20,12 +20,12 @@ namespace Negocio_BLL
 
         public void RegistrarBitacora(string us, TipoAccion acc)
         {
-            mpBitacora.RegistrarEvento(Bitacora.RegistrarEvento(us, acc.ToString()));
+            mpBitacora.RegistrarEvento(Bitacora.RegistrarEvento(us, acc));
         }
 
-        public void RegistrarBitacora(string us, string acc)
+        public List<EventoBE> BuscarEventos(string us, TipoAccion? acc, DateTime fIni, DateTime fFin)
         {
-            mpBitacora.RegistrarEvento(Bitacora.RegistrarEvento(us, acc));
+            return mpBitacora.BuscarEventos(us,acc,fIni, fFin);
         }
     }
 }
