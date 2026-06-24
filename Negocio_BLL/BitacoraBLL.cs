@@ -23,9 +23,9 @@ namespace Negocio_BLL
             mpBitacora.RegistrarEvento(Bitacora.RegistrarEvento(us, acc));
         }
 
-        //public void RegistrarBitacora(string us, string acc)
-        //{
-        //    mpBitacora.RegistrarEvento(Bitacora.RegistrarEvento(us, acc));
-        //}
+        public List<EventoBE> BuscarEventos(string us, TipoAccion? acc, DateTime fIni, DateTime fFin)
+        {
+            return mpBitacora.BuscarEventos(us,acc,fIni, fFin);
+        }
     }
 }
