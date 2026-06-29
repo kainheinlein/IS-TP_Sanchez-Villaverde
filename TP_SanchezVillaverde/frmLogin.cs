@@ -76,28 +76,22 @@ namespace TP_SanchezVillaverde
                         switch (authOK)
                         {
                             case LoginResult.UserInexistente:
-                                bitacora.RegistrarBitacora(user.user, TipoAccion.LoginFail);
                                 lblError.Text = "El usuario ingresado no existe";
                                 break;
                             case LoginResult.UserBloqueado:
-                                bitacora.RegistrarBitacora(user.user, TipoAccion.LoginFail);
                                 lblError.Text = "El usuario se encuentra bloqueado. Contacte al administrador";
                                 break;
                             case LoginResult.PassIncorrecta:
-                                bitacora.RegistrarBitacora(user.user, TipoAccion.LoginFail);
                                 lblError.Text = "La contraseña ingresada es incorrecta";
                                 break;
                             case LoginResult.UserInactivo:
-                                bitacora.RegistrarBitacora(user.user, TipoAccion.LoginFail);
                                 MessageBox.Show($"El usuario -->{user.user}<-- no esta disponible. Contacte al administrador.", "", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                                 break;
                             case LoginResult.FinIntentos:
-                                bitacora.RegistrarBitacora(user.user, TipoAccion.BloqueoUsuario);
                                 MessageBox.Show("Cantidad de intentos superado, se bloqueo el usuario. Cerrando la aplicacion.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 Application.Exit();
                                 break;
                             case LoginResult.SesionIniciada:
-                                bitacora.RegistrarBitacora(user.user, TipoAccion.Login);
                                 MessageBox.Show($"El usuario -->{user.user}<-- ya tiene la sesion iniciada.", "", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                                 frmMenu frm = new frmMenu();
                                 frm.Show();
@@ -108,7 +102,6 @@ namespace TP_SanchezVillaverde
                             case LoginResult.ExisteSesion:
                                 if (MessageBox.Show("Ya existe una sesion iniciada, desea finalizarla?", " ", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                                 {
-                                    bitacora.RegistrarBitacora(user.user, TipoAccion.Logout);
                                     usuario.Logout();
                                     MessageBox.Show("Sesion cerrada correctamente. Intente nuevamente con su usuario", " ", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                 }

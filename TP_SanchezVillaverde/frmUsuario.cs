@@ -129,13 +129,14 @@ namespace TP_SanchezVillaverde
             dgvUsuarios.Columns["email"].Visible = false;
             dgvUsuarios.Columns["cod"].Visible = false;
             dgvUsuarios.Columns["pass"].Visible = false;
-            dgvUsuarios.Columns[1].HeaderText = "DNI";
-            dgvUsuarios.Columns[2].HeaderText = "Nombre";
-            dgvUsuarios.Columns[3].HeaderText = "Apellido";
-            dgvUsuarios.Columns[4].HeaderText = "Usuario";
-            dgvUsuarios.Columns[5].HeaderText = "Rol";
-            dgvUsuarios.Columns[10].HeaderText = "Activo";
-            dgvUsuarios.Columns[11].HeaderText = "Bloqueado";
+            dgvUsuarios.Columns["dvh"].Visible = false;
+            dgvUsuarios.Columns["dni"].HeaderText = "DNI";
+            dgvUsuarios.Columns["nomb"].HeaderText = "Nombre";
+            dgvUsuarios.Columns["ape"].HeaderText = "Apellido";
+            dgvUsuarios.Columns["user"].HeaderText = "Usuario";
+            dgvUsuarios.Columns["rol"].HeaderText = "Rol";
+            dgvUsuarios.Columns["estado"].HeaderText = "Activo";
+            dgvUsuarios.Columns["bloq"].HeaderText = "Bloqueado";
             dgvUsuarios.ReadOnly = true;
         }
 
@@ -497,7 +498,6 @@ namespace TP_SanchezVillaverde
                             usuarioBLL.CrearUsuario(us);
                             ActualizarDGV();
                             LlenarMensaje($"El usuario -- {us.user} -- fue creado exitosamente");
-                            bitacora.RegistrarBitacora(SessionManager.GetInstance.UsuarioActual().user, TipoAccion.AltaUsuario);
                         }
                         catch (Exception ex)
                         {
@@ -514,7 +514,6 @@ namespace TP_SanchezVillaverde
                         usuarioBLL.ActualizarUsuario(us);
                         ActualizarDGV();
                         LlenarMensaje($"Usuario -- {us.user} -- actualizado correctamente");
-                        bitacora.RegistrarBitacora(SessionManager.GetInstance.UsuarioActual().user, TipoAccion.ModificacionUsuario);
                     }
                     catch (Exception ex)
                     {
@@ -553,7 +552,6 @@ namespace TP_SanchezVillaverde
                     usuarioBLL.EliminarUs(us);
                     ActualizarDGV();
                     LlenarMensaje($"Baja de usuario -- {us.user} -- exitosa");
-                    bitacora.RegistrarBitacora(SessionManager.GetInstance.UsuarioActual().user, TipoAccion.BajaUsuario);
                 }
             }
             catch (Exception ex)
@@ -571,10 +569,8 @@ namespace TP_SanchezVillaverde
                 {
                     UsuarioBE aux = new UsuarioBE();
                     aux = ExtraerDatos(dgvUsuarios.SelectedRows[0]);
-                    aux.pass = usuarioBLL.GenerarPass(aux.ape, aux.dni.ToString());
                     usuarioBLL.DesbloquearUS(aux);
                     LlenarMensaje("Usuario desbloqueado exitosamente");
-                    bitacora.RegistrarBitacora(SessionManager.GetInstance.UsuarioActual().user, TipoAccion.DesbloqueoUsuario);
                     ActualizarDGV();
                 }
             }

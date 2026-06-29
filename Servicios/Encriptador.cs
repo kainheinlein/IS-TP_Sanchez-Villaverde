@@ -9,9 +9,9 @@ namespace Servicios
 {
     public class Encriptador
     {
-        public static string EncriptarIrrev(string pass)
+        public static string EncriptarIrrev(string dato)
         {
-            byte[] data = SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(pass));
+            byte[] data = SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(dato));
             StringBuilder builder = new StringBuilder();
             for (int i = 0; i < data.Length; i++)
             {
