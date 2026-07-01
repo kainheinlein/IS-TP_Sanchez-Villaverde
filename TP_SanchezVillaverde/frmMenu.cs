@@ -17,6 +17,7 @@ namespace TP_SanchezVillaverde
         public static Form formActivo = null;
         UsuarioBLL usuario = new UsuarioBLL();
         BitacoraBLL bitacora = new BitacoraBLL();
+        VerificadorIntegridadBLL verIntegridad = new VerificadorIntegridadBLL();
 
         private void frmMenu_Load(object sender, System.EventArgs e)
         {
@@ -87,17 +88,20 @@ namespace TP_SanchezVillaverde
             MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 bitacora.RegistrarBitacora(SessionManager.GetInstance.UsuarioActual().user, TipoAccion.AppClose);
+                if (SessionManager.GetInstance.logged)
+                {
+                    verIntegridad.ActualizarDVV();
+                }            
                 SessionManager.GetInstance.Logout();
                 Application.Exit();
             }
-        }
+        } 
 
         private void cerrarSesionToolStripMenuItem_Click(object sender, System.EventArgs e)
         {
             if (MessageBox.Show("¿Esta seguro que desea cerrar la sesion?", "Atencion",
             MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                bitacora.RegistrarBitacora(SessionManager.GetInstance.UsuarioActual().user, TipoAccion.Logout);
                 UsuarioBLL usuario = new UsuarioBLL();
                 usuario.Logout();
 

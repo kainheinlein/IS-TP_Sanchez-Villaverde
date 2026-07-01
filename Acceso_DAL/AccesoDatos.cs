@@ -59,7 +59,7 @@ namespace Acceso_DAL
 
                 return dt;
             }
-            catch (Exception e) { throw e; }
+            catch (Exception) { throw; }
             finally { CerrarConexion(); }
         }
 
@@ -79,10 +79,10 @@ namespace Acceso_DAL
                 cmd.ExecuteNonQuery();
                 tr.Commit();
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 tr.Rollback();
-                throw e;
+                throw;
             }
             finally { CerrarConexion(); }
         }
@@ -104,7 +104,30 @@ namespace Acceso_DAL
 
                 return result = Convert.ToInt32(cmd.Parameters["@Result"].Value);
             }
-            catch (Exception e) { throw e; }
+            catch (Exception) { throw; }
+            finally { CerrarConexion(); }
+        }
+
+        public object ExtraerDato(string sp, SqlParameter[] parametros)
+        {
+            try
+            {
+                AbrirConexion();
+                SqlCommand cmd = new SqlCommand(sp, conexion);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                if (parametros != null)
+                {
+                    cmd.Parameters.AddRange(parametros);
+                }
+                object valor = cmd.ExecuteScalar();
+                if(valor == DBNull.Value) { return null; }
+                else return valor;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
             finally { CerrarConexion(); }
         }
     }
