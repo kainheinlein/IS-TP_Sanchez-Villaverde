@@ -1,5 +1,6 @@
 ﻿using Entidad_BE;
 using Negocio_BLL;
+using Servicios;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -21,11 +22,27 @@ namespace TP_SanchezVillaverde
 
         UsuarioBLL usuario = new UsuarioBLL();
         BitacoraBLL bitacora = new BitacoraBLL();
+        VerificadorIntegridadBLL IntegridadBLL = new VerificadorIntegridadBLL();
 
         private void frmLogin_Load(object sender, EventArgs e)
         {
-            txtContra.boton = this.btnIniciar;
-            lblError.Text = "";
+            try
+            {
+                if (IntegridadBLL.VerificarIntegridad())
+                {
+                    txtContra.boton = this.btnIniciar;
+                    lblError.Text = "";
+                }
+                else
+                {
+                    MessageBox.Show("Integridad de la Base de Datos Comprometida. Comuniquese con el Administrator","Integridad Comprometida",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                    Application.Exit();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void txtContra_Load(object sender, EventArgs e)
@@ -38,8 +55,16 @@ namespace TP_SanchezVillaverde
             if (MessageBox.Show("¿Esta seguro que desea cerrar la aplicacion?", "Atencion",
             MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                bitacora.RegistrarBitacora("null", TipoAccion.AppClose);
-                Application.Exit();
+                try
+                {
+                    if (SessionManager.GetInstance.logged) { usuario.Logout(); }
+                    else { bitacora.RegistrarBitacora("null", TipoAccion.AppClose); }
+                    Application.Exit();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
             }
             else txtUsuario.Enfocar();
         }

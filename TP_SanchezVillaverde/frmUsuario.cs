@@ -130,6 +130,7 @@ namespace TP_SanchezVillaverde
             dgvUsuarios.Columns["cod"].Visible = false;
             dgvUsuarios.Columns["pass"].Visible = false;
             dgvUsuarios.Columns["dvh"].Visible = false;
+            dgvUsuarios.Columns["digito"].Visible = false;
             dgvUsuarios.Columns["dni"].HeaderText = "DNI";
             dgvUsuarios.Columns["nomb"].HeaderText = "Nombre";
             dgvUsuarios.Columns["ape"].HeaderText = "Apellido";

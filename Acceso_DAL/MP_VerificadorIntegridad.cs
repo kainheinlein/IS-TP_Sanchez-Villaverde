@@ -32,5 +32,18 @@ namespace Acceso_DAL
             param[1] = new SqlParameter("tabla", tabla);
             conexDB.Escribir("SP_ActualizarDVV",param);
         }
+
+        public string ExtraerDVV(string tabla)
+        { 
+            SqlParameter[] param = new SqlParameter[2];
+            param[0] = new SqlParameter("@tabla", "DigitoVertical");
+            param[1] = new SqlParameter("@tablaVerif", tabla);
+            object dvv = conexDB.ExtraerDato("SP_ExtraerDVV", param);
+            if(dvv != null)
+            {
+                return dvv.ToString();
+            }
+            return "";
+        }
     }
 }

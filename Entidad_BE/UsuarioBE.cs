@@ -112,8 +112,10 @@ namespace Entidad_BE
             set { _dvh = value; }
         }
 
-        public UsuarioBE() { }
+        public string digito => _dvh;
 
+        public UsuarioBE() { }
+        
         public UsuarioBE CrearUsuario(string[] datos)
         {
             this.cod = Convert.ToInt32(datos[0]);
