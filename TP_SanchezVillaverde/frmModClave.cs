@@ -107,7 +107,6 @@ namespace TP_SanchezVillaverde
                         txtActual.Clear();
                         txtActual.Focus();
                         lblError.Text = $"Contraseña incorrecta, quedan {usuario.maxIntentos.ToString()} intentos";
-                        bitacora.RegistrarBitacora(SessionManager.GetInstance.UsuarioActual().user, TipoAccion.LoginFail);
                         break;
                     case 1:
                         btnLogin.Visible = false;
@@ -123,7 +122,6 @@ namespace TP_SanchezVillaverde
                         break;
                     case 2:
                         MessageBox.Show("Cantidad de intentos superados, usuario bloqueado. Contacte al administrador", "Usuario Bloqueado", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        bitacora.RegistrarBitacora(SessionManager.GetInstance.UsuarioActual().user, TipoAccion.BloqueoUsuario);
                         usuario.Logout();
                         Application.Exit();
                         break;
@@ -155,7 +153,6 @@ namespace TP_SanchezVillaverde
                         else
                         {
                             MessageBox.Show("Contraseña cambiada correctamente", "Nueva Contraseña", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            bitacora.RegistrarBitacora(SessionManager.GetInstance.UsuarioActual().user, TipoAccion.CambioClave);
                             this.Close();
                         }
                     }
