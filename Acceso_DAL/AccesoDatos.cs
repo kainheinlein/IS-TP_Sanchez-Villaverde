@@ -87,6 +87,31 @@ namespace Acceso_DAL
             finally { CerrarConexion(); }
         }
 
+        public object EscribirRetornar(string sp, SqlParameter[] parametros)
+        {
+            SqlTransaction tr;
+            AbrirConexion();
+            tr = conexion.BeginTransaction();
+            try
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = sp;
+                cmd.Connection = conexion;
+                cmd.Parameters.AddRange(parametros);
+                cmd.Transaction = tr;
+                object result = cmd.ExecuteScalar();
+                tr.Commit();
+                return result;
+            }
+            catch (Exception)
+            {
+                tr.Rollback();
+                throw;
+            }
+            finally { CerrarConexion(); }
+        }
+
         public int Consulta(string sp, SqlParameter[] parametros)
         {
             int result;
