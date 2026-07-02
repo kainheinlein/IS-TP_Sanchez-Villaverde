@@ -130,11 +130,12 @@ namespace Negocio_BLL
         {
             usuario = us;
             us.pass = Encriptador.EncriptarIrrev(us.pass);
+            us.cod =  mpUsuario.CrearUsuario(us);
             us.dvh = VerificadorIntegridad.CalcularDVH(us);
-            mpUsuario.CrearUsuario(us);
-            bitacora.RegistrarBitacora(SessionManager.GetInstance.UsuarioActual().user, TipoAccion.AltaUsuario);
-        }
+            mpUsuario.ActualizarUsuario(usuario);
 
+        bitacora.RegistrarBitacora(SessionManager.GetInstance.UsuarioActual().user, TipoAccion.AltaUsuario);
+        }
         public void EliminarUs(UsuarioBE us)
         {
             us.dvh = VerificadorIntegridad.CalcularDVH(us);
@@ -154,7 +155,5 @@ namespace Negocio_BLL
             string pass = ape.Substring(0, 3) + dni.Substring(0, 3);
             return pass;
         }
-
-
     }
 }

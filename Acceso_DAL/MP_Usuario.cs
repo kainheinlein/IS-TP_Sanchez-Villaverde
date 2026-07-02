@@ -60,9 +60,9 @@ namespace Acceso_DAL
             conexDB.Escribir("SP_ActualizarBloqueado", parametros);
         }
 
-        public void CrearUsuario(UsuarioBE us)
+        public int CrearUsuario(UsuarioBE us)
         {
-            SqlParameter[] parametros = new SqlParameter[12];
+            SqlParameter[] parametros = new SqlParameter[11];
             parametros[0] = new SqlParameter("@DNI", us.dni);
             parametros[1] = new SqlParameter("@Nombre", us.nomb);
             parametros[2] = new SqlParameter("@Apellido", us.ape);
@@ -74,9 +74,8 @@ namespace Acceso_DAL
             parametros[8] = new SqlParameter("@Email", us.email);
             parametros[9] = new SqlParameter("@Activo", us.estado);
             parametros[10] = new SqlParameter("@Bloqueado", us.bloq);
-            parametros[11] = new SqlParameter("@DVH", us.dvh);
 
-            conexDB.Escribir("SP_CrearUsuario", parametros);
+            return Convert.ToInt32(conexDB.EscribirRetornar("SP_CrearUsuario", parametros));
         }
 
         public void EliminarUsuario(UsuarioBE us)
