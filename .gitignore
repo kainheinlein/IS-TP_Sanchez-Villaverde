@@ -362,3 +362,4 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /Acceso_DAL/obj/Debug/Acceso_DAL.csproj.AssemblyReference.cache
+/TP_SanchezVillaverde/obj/Debug/DesignTimeResolveAssemblyReferences.cache
