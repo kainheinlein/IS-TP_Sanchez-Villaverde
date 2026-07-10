@@ -71,6 +71,12 @@
     <Compile Include="frmMenu.Designer.cs">
       <DependentUpon>frmMenu.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmRecalcular.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmRecalcular.Designer.cs">
+      <DependentUpon>frmRecalcular.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmUsuario.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -96,6 +102,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmModClave.resx">
       <DependentUpon>frmModClave.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmRecalcular.resx">
+      <DependentUpon>frmRecalcular.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmUsuario.resx">
       <DependentUpon>frmUsuario.cs</DependentUpon>

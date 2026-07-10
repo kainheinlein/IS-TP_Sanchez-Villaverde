@@ -28,15 +28,22 @@ namespace Acceso_DAL
 
         public bool VerificarConexion()
         {
-            AbrirConexion();
-            if (_conexion.State == ConnectionState.Open)
+            try
             {
-                CerrarConexion();
-                return true;
+                AbrirConexion();
+                if (_conexion.State == ConnectionState.Open)
+                {
+                    CerrarConexion();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
-            else
+            catch (Exception)
             {
-                return false;
+                throw;
             }
         }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Entidad_BE;
@@ -12,7 +13,7 @@ namespace Servicios
         private static SessionManager _sesion = null;
         private static object _lock = new object();//Bloquear acceso multihilo
         private UsuarioBE _usuario;
-        public bool logged = false;
+        private bool logged = false;
 
         private SessionManager() { }
 
@@ -50,6 +51,11 @@ namespace Servicios
             logged = false;
             _usuario = null;
             _sesion = null;
+        }
+
+        public static bool Logged()
+        {
+            return GetInstance.logged;
         }
     }
 }
