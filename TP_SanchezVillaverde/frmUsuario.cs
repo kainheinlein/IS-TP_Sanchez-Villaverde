@@ -151,7 +151,9 @@ namespace TP_SanchezVillaverde
         {
             if (ValCampos())//Validacion caracteres
             {
-                auxUsuario = new UsuarioBE();
+                if(varMod == 1) { auxUsuario = ExtraerDatos(dgvUsuarios.SelectedRows[0]); }
+                else auxUsuario = new UsuarioBE();
+
                 auxUsuario.dni = Convert.ToInt32(txtDoc.Text);
                 auxUsuario.nomb = txtNom.Text;
                 auxUsuario.ape = txtApe.Text;
@@ -550,6 +552,7 @@ namespace TP_SanchezVillaverde
                 if (MessageBox.Show($"Desea eliminar el usuario -- {us.user}  -- ?", "Eliminar Usuario",
                     MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
+                    us.estado = false;
                     usuarioBLL.EliminarUs(us);
                     ActualizarDGV();
                     LlenarMensaje($"Baja de usuario -- {us.user} -- exitosa");

@@ -35,8 +35,20 @@ namespace TP_SanchezVillaverde
                 }
                 else
                 {
-                    MessageBox.Show("Integridad de la Base de Datos Comprometida. Comuniquese con el Administrator","Integridad Comprometida",MessageBoxButtons.OK,MessageBoxIcon.Error);
-                    Application.Exit();
+                    using (var formRecalcular = new frmRecalcular())
+                    {
+                        if (formRecalcular.ShowDialog() == DialogResult.OK)
+                        {
+                            IntegridadBLL.RecalcularDV();
+                            if (!IntegridadBLL.VerificarIntegridad())
+                            {
+                                MessageBox.Show("No fue posible restaurar la integridad.");
+                                Application.Exit();
+                            }
+                        } else Application.Exit();
+                        MessageBox.Show("Integridad de la base de datos restaurada", "Integridad Restaurada", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        lblError.Text = "";
+                    }
                 }
             }
             catch (Exception ex)
@@ -57,7 +69,7 @@ namespace TP_SanchezVillaverde
             {
                 try
                 {
-                    if (SessionManager.GetInstance.logged) { usuario.Logout(); }
+                    if (SessionManager.Logged()) { usuario.Logout(); }
                     else { bitacora.RegistrarBitacora("null", TipoAccion.AppClose); }
                     Application.Exit();
                 }

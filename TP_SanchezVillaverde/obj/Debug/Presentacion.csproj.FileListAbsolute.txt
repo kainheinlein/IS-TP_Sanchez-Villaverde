@@ -22,3 +22,4 @@ C:\Users\Sanch\source\repos\kainheinlein\IS-TP_Sanchez-Villaverde\TP_SanchezVill
 C:\Users\Sanch\source\repos\kainheinlein\IS-TP_Sanchez-Villaverde\TP_SanchezVillaverde\obj\Debug\TP_SanchezVillaverde.frmLogin.resources
 C:\Users\Sanch\source\repos\kainheinlein\IS-TP_Sanchez-Villaverde\TP_SanchezVillaverde\obj\Debug\TP_SanchezVillaverde.frmModClave.resources
 C:\Users\Sanch\source\repos\kainheinlein\IS-TP_Sanchez-Villaverde\TP_SanchezVillaverde\obj\Debug\TP_SanchezVillaverde.frmBitacora.resources
+C:\Users\Sanch\source\repos\kainheinlein\IS-TP_Sanchez-Villaverde\TP_SanchezVillaverde\obj\Debug\TP_SanchezVillaverde.frmRecalcular.resources

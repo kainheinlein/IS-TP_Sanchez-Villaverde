@@ -81,9 +81,8 @@ namespace Acceso_DAL
         public void EliminarUsuario(UsuarioBE us)
         {
             SqlParameter[] parametros = new SqlParameter[2];
-            parametros[0] = new SqlParameter("Usuario", us.user);
+            parametros[0] = new SqlParameter("@Usuario", us.user);
             parametros[1] = new SqlParameter("@DVH", us.dvh);
-
 
             conexDB.Escribir("SP_ElimUsuario", parametros);
         }
@@ -91,7 +90,7 @@ namespace Acceso_DAL
         public void ActualizarUsuario(UsuarioBE us)
         {
             SqlParameter[] parametros = new SqlParameter[12];
-            parametros[0] = new SqlParameter("Codigo", us.cod);
+            parametros[0] = new SqlParameter("@Codigo", us.cod);
             parametros[1] = new SqlParameter("@DNI", us.dni);
             parametros[2] = new SqlParameter("@Nombre", us.nomb);
             parametros[3] = new SqlParameter("@Apellido", us.ape);
@@ -122,7 +121,7 @@ namespace Acceso_DAL
             SqlParameter[] param = new SqlParameter[1];
             param[0] = new SqlParameter("@user", us);
             DataTable dt = conexDB.LeerTabla("SP_ExtUser", param);
-            if (dt != null)
+            if (dt.Rows.Count > 0)
             {
                 UsuarioBE aux = new UsuarioBE();
                 aux.cod = Convert.ToInt32(dt.Rows[0][0].ToString());

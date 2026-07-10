@@ -26,7 +26,7 @@ namespace Negocio_BLL
         {
             LoginResult AuthOK;
             us.pass = Encriptador.EncriptarIrrev(us.pass);
-            if (SessionManager.GetInstance.logged == false)
+            if (!SessionManager.Logged())
             {
                 AuthOK = mpUsuario.Login(us);
                 if (AuthOK == LoginResult.LoginOK)
@@ -46,7 +46,10 @@ namespace Negocio_BLL
                 }
                 else { AuthOK = LoginResult.ExisteSesion; }
             }
-            if ((AuthOK != LoginResult.LoginOK) || (AuthOK != LoginResult.ExisteSesion)) { maxIntentos--; }
+            if (AuthOK != LoginResult.LoginOK && AuthOK != LoginResult.SesionIniciada)
+            {
+                if(AuthOK != LoginResult.ExisteSesion){ maxIntentos--; }
+            }
             if (maxIntentos == 0)
             {
                 usuario = new UsuarioBE();
@@ -147,7 +150,10 @@ namespace Negocio_BLL
         {
             us.dvh = VerificadorIntegridad.CalcularDVH(us);
             mpUsuario.ActualizarUsuario(us);
-            bitacora.RegistrarBitacora(SessionManager.GetInstance.UsuarioActual().user, TipoAccion.ModificacionUsuario);
+            if(SessionManager.Logged())
+            {
+                bitacora.RegistrarBitacora(SessionManager.GetInstance.UsuarioActual().user, TipoAccion.ModificacionUsuario);
+            }
         }
 
         public string GenerarPass(string ape, string dni)

@@ -21,7 +21,7 @@ namespace TP_SanchezVillaverde
 
         private void frmMenu_Load(object sender, System.EventArgs e)
         {
-            if (SessionManager.GetInstance.logged == true)
+            if (SessionManager.Logged())
             {
                 FormConectado();
             }
@@ -88,7 +88,7 @@ namespace TP_SanchezVillaverde
             MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 bitacora.RegistrarBitacora(SessionManager.GetInstance.UsuarioActual().user, TipoAccion.AppClose);
-                if (SessionManager.GetInstance.logged)
+                if (SessionManager.Logged())
                 {
                     verIntegridad.ActualizarDVV();
                 }            

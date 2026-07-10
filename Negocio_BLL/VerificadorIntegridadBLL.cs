@@ -38,5 +38,22 @@ namespace Negocio_BLL
 
             return VerificadorIntegridad.VerificarIntegridad(usuarios,ExtraerDVV());
         }
+
+        public void RecalcularDV()
+        {
+            UsuarioBLL usuario = new UsuarioBLL();
+            List<UsuarioBE> usuarios = usuario.ListarUsuarios();
+            List<string> dvhs = new List<string>();
+            usuarios = usuarios
+                .OrderBy(u => u.cod)
+                .ToList();
+            foreach (UsuarioBE ent  in usuarios)
+            {
+                ent.dvh = VerificadorIntegridad.CalcularDVH(ent);
+                dvhs.Add(ent.dvh);
+                usuario.ActualizarUsuario(ent);
+            }
+            verificadorMP.ActualizarDVV(VerificadorIntegridad.CalcularDVV(dvhs),"Usuarios");
+        }
     }
 }
