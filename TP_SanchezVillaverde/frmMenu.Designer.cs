@@ -32,7 +32,7 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.tsAdmin = new System.Windows.Forms.ToolStripMenuItem();
             this.gestionDeUsuariosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.perfilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsPerfiles = new System.Windows.Forms.ToolStripMenuItem();
             this.idiomasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.backupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.restoreToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -81,7 +81,7 @@
             // 
             this.tsAdmin.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.gestionDeUsuariosToolStripMenuItem,
-            this.perfilesToolStripMenuItem,
+            this.tsPerfiles,
             this.idiomasToolStripMenuItem,
             this.backupToolStripMenuItem,
             this.restoreToolStripMenuItem,
@@ -98,11 +98,12 @@
             this.gestionDeUsuariosToolStripMenuItem.Text = "Gestion de Usuarios";
             this.gestionDeUsuariosToolStripMenuItem.Click += new System.EventHandler(this.gestionDeUsuariosToolStripMenuItem_Click);
             // 
-            // perfilesToolStripMenuItem
+            // tsPerfiles
             // 
-            this.perfilesToolStripMenuItem.Name = "perfilesToolStripMenuItem";
-            this.perfilesToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
-            this.perfilesToolStripMenuItem.Text = "Perfiles";
+            this.tsPerfiles.Name = "tsPerfiles";
+            this.tsPerfiles.Size = new System.Drawing.Size(184, 22);
+            this.tsPerfiles.Text = "Perfiles";
+            this.tsPerfiles.Click += new System.EventHandler(this.perfilesToolStripMenuItem_Click);
             // 
             // idiomasToolStripMenuItem
             // 
@@ -305,7 +306,7 @@
         private System.Windows.Forms.ToolStripMenuItem salirToolStripMenuItem;
         private System.Windows.Forms.Label lblUsuario;
         private System.Windows.Forms.ToolStripMenuItem gestionDeUsuariosToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem perfilesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem tsPerfiles;
         private System.Windows.Forms.ToolStripMenuItem idiomasToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem backupToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem restoreToolStripMenuItem;
