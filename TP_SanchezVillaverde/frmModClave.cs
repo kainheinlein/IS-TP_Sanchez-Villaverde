@@ -15,18 +15,46 @@ using System.Windows.Forms;
 
 namespace TP_SanchezVillaverde
 {
-    public partial class frmModClave : Form
+    public partial class frmModClave : Form, IObservadorIdioma
     {
         public frmModClave()
         {
             InitializeComponent();
+            gestorIdioma.Suscribir(this);
+            this.FormClosed += frmModClave_FormClosed;
         }
 
         UsuarioBLL usuario = new UsuarioBLL();
         BitacoraBLL bitacora = new BitacoraBLL();
         UsuarioBE us = new UsuarioBE();
+        GestorDeIdioma gestorIdioma = GestorDeIdioma.GetInstance;
         int verif = 0;
         string patron = "^[A-Za-z0-9]+$";
+
+        #region Patron Observer - Idiomas
+
+        public void ActualizarTextos()
+        {
+            this.Text = gestorIdioma.Traducir("CLAVE_TITULO");
+            lblActual.Text = gestorIdioma.Traducir("CLAVE_LBL_ACTUAL");
+            lblNuevo.Text = gestorIdioma.Traducir("CLAVE_LBL_NUEVA");
+            lblRep.Text = gestorIdioma.Traducir("CLAVE_LBL_REPETIR");
+            btnLogin.Text = gestorIdioma.Traducir("CLAVE_BTN_CONFIRMAR");
+            btnAceptar.Text = gestorIdioma.Traducir("COMUN_ACEPTAR");
+            btnCancel.Text = gestorIdioma.Traducir("COMUN_CANCELAR");
+            if (lblInstrucciones.Text != "")
+            {
+                lblInstrucciones.Text = gestorIdioma.Traducir("CLAVE_MSG_INSTRUCCIONES");
+            }
+        }
+
+        private void frmModClave_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            gestorIdioma.Desuscribir(this);
+        }
+
+        #endregion
+
 
         #region Modificadores Formulario
         public void CambiarEnabled()
@@ -106,7 +134,11 @@ namespace TP_SanchezVillaverde
                     case 0:
                         txtActual.Clear();
                         txtActual.Focus();
-                        lblError.Text = $"Contraseña incorrecta, quedan {usuario.maxIntentos.ToString()} intentos";
+                        lblError.Text = string.Format(gestorIdioma.Traducir("CLAVE_ERR_INTENTOS"), usuario.maxIntentos.ToString());
+                        bitacora.RegistrarBitacora(SessionManager.GetInstance.UsuarioActual().user, TipoAccion.LoginFail);
+                        //txtActual.Clear();
+                        //txtActual.Focus();
+                        //lblError.Text = $"Contraseña incorrecta, quedan {usuario.maxIntentos.ToString()} intentos";
                         break;
                     case 1:
                         btnLogin.Visible = false;
@@ -117,11 +149,12 @@ namespace TP_SanchezVillaverde
                         lblRep.Visible = true;
                         txtClaveRep.Visible = true;
                         btnAceptar.Visible = true;
-                        lblInstrucciones.Text = "Introduzca una contraseña distinta a la anterior. Recuerde introducir solo letras y numeros";
+                        lblInstrucciones.Text = gestorIdioma.Traducir("CLAVE_MSG_INSTRUCCIONES");
                         txtClave.Focus();
                         break;
                     case 2:
-                        MessageBox.Show("Cantidad de intentos superados, usuario bloqueado. Contacte al administrador", "Usuario Bloqueado", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show(gestorIdioma.Traducir("CLAVE_MSG_BLOQUEADO"), gestorIdioma.Traducir("CLAVE_TIT_BLOQUEADO"), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        bitacora.RegistrarBitacora(SessionManager.GetInstance.UsuarioActual().user, TipoAccion.BloqueoUsuario);
                         usuario.Logout();
                         Application.Exit();
                         break;
@@ -130,7 +163,7 @@ namespace TP_SanchezVillaverde
             else
             {
                 txtActual.Clear();
-                lblError.Text = "Formato de contraseña ingresado incorrecto";
+                lblError.Text = gestorIdioma.Traducir("CLAVE_ERR_FORMATO");
             }
         }
 
@@ -148,30 +181,30 @@ namespace TP_SanchezVillaverde
                         if (verif == 1)
                         {
                             LimpiaClave();
-                            lblError.Text = "La nueva contraseña debe ser distinta a la anterior";
+                            gestorIdioma.Traducir("CLAVE_ERR_IGUAL_ANTERIOR");
                         }
                         else
                         {
-                            MessageBox.Show("Contraseña cambiada correctamente", "Nueva Contraseña", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            MessageBox.Show(gestorIdioma.Traducir("CLAVE_MSG_OK"), gestorIdioma.Traducir("CLAVE_TIT_OK"), MessageBoxButtons.OK, MessageBoxIcon.Information);
                             this.Close();
                         }
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show("Ocurrio un error de comunicacion con la base de datos: " + ex.Message);
+                        MessageBox.Show(gestorIdioma.Traducir("COMUN_ERROR_BD") + ex.Message);
                         this.Close();
                     }
                 }
                 else
                 {
                     LimpiaClave();
-                    lblError.Text = "Las contraseñas son distintas, vuelva a intentarlo";
+                    lblError.Text = gestorIdioma.Traducir("CLAVE_ERR_DISTINTAS");
                 }
             }
             else
             {
                 LimpiaClave();
-                lblError.Text = "La contraseña no coincide con el formato necesario";
+                lblError.Text = gestorIdioma.Traducir("CLAVE_ERR_NO_FORMATO");
             }
         }
 
