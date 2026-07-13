@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace TP_SanchezVillaverde
 {
-    public partial class frmMenu : Form
+    public partial class frmMenu : Form, IObservadorIdioma
     {
         public frmMenu()
         {
@@ -18,6 +18,8 @@ namespace TP_SanchezVillaverde
         UsuarioBLL usuario = new UsuarioBLL();
         BitacoraBLL bitacora = new BitacoraBLL();
         VerificadorIntegridadBLL verIntegridad = new VerificadorIntegridadBLL();
+        PerfilBLL perfilBLL = new PerfilBLL();
+        GestorDeIdioma gestorIdioma = GestorDeIdioma.GetInstance;
 
         private void frmMenu_Load(object sender, System.EventArgs e)
         {
@@ -29,7 +31,96 @@ namespace TP_SanchezVillaverde
             {
                 FormDesconectado();
             }
+            CargarMenuIdiomas();
+            gestorIdioma.Suscribir(this);
+            this.FormClosed += frmMenu_FormClosed;
         }
+
+        private void frmMenu_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            gestorIdioma.Desuscribir(this);
+        }
+
+        #region Patron Observer - Idiomas
+
+        public void ActualizarTextos()
+        {
+            tsInicio.Text = gestorIdioma.Traducir("MENU_TS_INICIO");
+            iniciarSesionToolStripMenuItem.Text = gestorIdioma.Traducir("MENU_INICIAR_SESION");
+            cerrarSesionToolStripMenuItem.Text = gestorIdioma.Traducir("MENU_CERRAR_SESION");
+            salirToolStripMenuItem.Text = gestorIdioma.Traducir("COMUN_SALIR");
+            tsAdmin.Text = gestorIdioma.Traducir("MENU_TS_ADMIN");
+            gestionDeUsuariosToolStripMenuItem.Text = gestorIdioma.Traducir("MENU_GESTION_USUARIOS");
+            tsPerfiles.Text = gestorIdioma.Traducir("MENU_PERFILES");
+            idiomasToolStripMenuItem.Text = gestorIdioma.Traducir("MENU_IDIOMAS");
+            backupToolStripMenuItem.Text = gestorIdioma.Traducir("MENU_BACKUP");
+            restoreToolStripMenuItem.Text = gestorIdioma.Traducir("MENU_RESTORE");
+            bitacoraToolStripMenuItem.Text = gestorIdioma.Traducir("MENU_BITACORA");
+            tsUsuario.Text = gestorIdioma.Traducir("COMUN_USUARIO");
+            cambiarClaveToolStripMenuItem.Text = gestorIdioma.Traducir("MENU_CAMBIAR_CLAVE");
+            cambiarIdiomaToolStripMenuItem.Text = gestorIdioma.Traducir("MENU_CAMBIAR_IDIOMA");
+            tsVentas.Text = gestorIdioma.Traducir("MENU_TS_VENTAS");
+            llenarCarritoToolStripMenuItem.Text = gestorIdioma.Traducir("MENU_LLENAR_CARRITO");
+            realizarVentaToolStripMenuItem.Text = gestorIdioma.Traducir("MENU_REALIZAR_VENTA");
+            tsGestion.Text = gestorIdioma.Traducir("MENU_TS_GESTION");
+            clienteToolStripMenuItem.Text = gestorIdioma.Traducir("MENU_CLIENTE");
+            productosToolStripMenuItem.Text = gestorIdioma.Traducir("MENU_PRODUCTOS");
+            proveedoresToolStripMenuItem.Text = gestorIdioma.Traducir("MENU_PROVEEDORES");
+            tsReportes.Text = gestorIdioma.Traducir("MENU_TS_REPORTES");
+            tsAyuda.Text = gestorIdioma.Traducir("MENU_TS_AYUDA");
+
+            if (SessionManager.Logged() && SessionManager.GetInstance.UsuarioActual() != null)
+            {
+                lblUsuario.Text = gestorIdioma.Traducir("MENU_LBL_USUARIO") + SessionManager.GetInstance.UsuarioActual().user;
+            }
+            else
+            {
+                lblUsuario.Text = gestorIdioma.Traducir("MENU_LBL_SIN_CONEXION");
+            }
+            MarcarIdiomaActivo();
+        }
+
+        private void CargarMenuIdiomas()
+        {
+            try
+            {
+                cambiarIdiomaToolStripMenuItem.DropDownItems.Clear();
+                foreach (IdiomaBE idioma in gestorIdioma.ObtenerIdiomas())
+                {
+                    ToolStripMenuItem item = new ToolStripMenuItem(idioma.Nombre);
+                    item.Tag = idioma.Codigo;
+                    item.Click += itemIdioma_Click;
+                    cambiarIdiomaToolStripMenuItem.DropDownItems.Add(item);
+                }
+            }
+            catch { }//Sin conexion a la BD no se ofrece el cambio de idioma
+        }
+
+        private void MarcarIdiomaActivo()
+        {
+            foreach (ToolStripMenuItem item in cambiarIdiomaToolStripMenuItem.DropDownItems)
+            {
+                item.Checked = gestorIdioma.IdiomaActual != null
+                    && item.Tag.ToString() == gestorIdioma.IdiomaActual.Codigo;
+            }
+        }
+
+        private void itemIdioma_Click(object sender, System.EventArgs e)
+        {
+            try
+            {
+                gestorIdioma.CambiarIdioma((sender as ToolStripMenuItem).Tag.ToString());
+                string user = SessionManager.Logged() ? SessionManager.GetInstance.UsuarioActual().user : "null";
+                bitacora.RegistrarBitacora(user, TipoAccion.CambioIdioma);
+            }
+            catch (System.Exception ex)
+            {
+                MessageBox.Show(gestorIdioma.Traducir("COMUN_ERROR_BD") + ex.Message);
+            }
+        }
+
+        #endregion
+
 
         #region Set Formulario
         public void FormConectado()
@@ -42,6 +133,21 @@ namespace TP_SanchezVillaverde
             tsReportes.Enabled = true;
             tsGestion.Enabled = true;
             cambiarClaveToolStripMenuItem.Enabled = true;
+
+            AplicarPermisos(usActual.rol);
+        }
+
+        private void AplicarPermisos(string rol)
+        {
+            gestionDeUsuariosToolStripMenuItem.Enabled = perfilBLL.TienePermiso(rol, TipoPermiso.GestionUsuarios.ToString());
+            tsPerfiles.Enabled = perfilBLL.TienePermiso(rol, TipoPermiso.GestionPerfiles.ToString());
+            backupToolStripMenuItem.Enabled = perfilBLL.TienePermiso(rol, TipoPermiso.GestionBackup.ToString());
+            restoreToolStripMenuItem.Enabled = perfilBLL.TienePermiso(rol, TipoPermiso.GestionBackup.ToString());
+            bitacoraToolStripMenuItem.Enabled = perfilBLL.TienePermiso(rol, TipoPermiso.GestionBitacora.ToString());
+            llenarCarritoToolStripMenuItem.Enabled = perfilBLL.TienePermiso(rol, TipoPermiso.LlenarCarrito.ToString());
+            realizarVentaToolStripMenuItem.Enabled = perfilBLL.TienePermiso(rol, TipoPermiso.RealizarCobro.ToString());
+            clienteToolStripMenuItem.Enabled = perfilBLL.TienePermiso(rol, TipoPermiso.RegistrarCliente.ToString());
+            productosToolStripMenuItem.Enabled = perfilBLL.TienePermiso(rol, TipoPermiso.GestionProductos.ToString());
         }
 
         public void FormDesconectado()
@@ -84,7 +190,7 @@ namespace TP_SanchezVillaverde
 
         private void salirToolStripMenuItem_Click(object sender, System.EventArgs e)
         {
-            if (MessageBox.Show("¿Esta seguro que desea cerrar la aplicacion?", "Atencion",
+            if (MessageBox.Show(gestorIdioma.Traducir("COMUN_CONFIRMA_SALIR_APP"), gestorIdioma.Traducir("COMUN_ATENCION"),
             MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 bitacora.RegistrarBitacora(SessionManager.GetInstance.UsuarioActual().user, TipoAccion.AppClose);
@@ -99,7 +205,7 @@ namespace TP_SanchezVillaverde
 
         private void cerrarSesionToolStripMenuItem_Click(object sender, System.EventArgs e)
         {
-            if (MessageBox.Show("¿Esta seguro que desea cerrar la sesion?", "Atencion",
+            if (MessageBox.Show(gestorIdioma.Traducir("COMUN_CONFIRMA_CERRAR_SESION"), gestorIdioma.Traducir("COMUN_ATENCION"),
             MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 UsuarioBLL usuario = new UsuarioBLL();

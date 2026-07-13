@@ -1,4 +1,4 @@
-using Entidad_BE;
+﻿using Entidad_BE;
 using Negocio_BLL;
 using Servicios;
 using System;
@@ -9,10 +9,11 @@ using System.Windows.Forms;
 
 namespace TP_SanchezVillaverde
 {
-    public partial class frmGestionPerfiles : Form
+    public partial class frmGestionPerfiles : Form, IObservadorIdioma
     {
         PerfilBLL permisoBLL;
         BitacoraBLL bitacoraBLL = new BitacoraBLL();
+        GestorDeIdioma gestorIdioma = GestorDeIdioma.GetInstance;
         string PathFile = "GestionPerfiles";
 
         public frmGestionPerfiles()
@@ -88,18 +89,18 @@ namespace TP_SanchezVillaverde
 
         private void frmGestionPerfiles_Load(object sender, EventArgs e)
         {
-            try
-            {
-                CargarArbol();
-                MostrarPermisos();
-                CargarComboFamilias();
-                btnEliminar.Enabled = false;
-                button7.Enabled = false;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            CargarArbol();
+            MostrarPermisos();
+            CargarComboFamilias();
+            btnEliminar.Enabled = false;
+            button7.Enabled = false;
+            gestorIdioma.Suscribir(this);
+            this.FormClosed += frmGestionPerfiles_FormClosed;
+        }
+
+        private void frmGestionPerfiles_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            gestorIdioma.Desuscribir(this);
         }
 
         private void button5_Click(object sender, EventArgs e) // Agregar familia
@@ -125,13 +126,13 @@ namespace TP_SanchezVillaverde
                     {
                         if (familiapermisos.Contains(pnombre))
                         {
-                            throw new Exception($"Permiso '{pnombre}' ya est� asignado a '{fam}'");
+                            throw new Exception($"Permiso '{pnombre}' ya está asignado a '{fam}'");
                         }
                     }
                 }
                 if ((items.Count + familiasseleccionadas.Count) <= 1)
                 {
-                    MessageBox.Show("Debe seleccionar permisos o familias");
+                    MessageBox.Show(gestorIdioma.Traducir("PERF_MSG_SELECCION"));
                     return;
                 }
 
@@ -223,13 +224,13 @@ namespace TP_SanchezVillaverde
                     {
                         if (familiapermisos.Contains(pnombre))
                         {
-                            throw new Exception($"Permiso '{pnombre}' ya est� asignado a '{fam}'");
+                            throw new Exception($"Permiso '{pnombre}' ya está asignado a '{fam}'");
                         }
                     }
                 }
                 if ((items.Count + familiasseleccionadas.Count) <= 1)
                 {
-                    MessageBox.Show("Debe seleccionar permisos o familias");
+                    MessageBox.Show(gestorIdioma.Traducir("PERF_MSG_SELECCION"));
                     return;
                 }
 
@@ -328,7 +329,7 @@ namespace TP_SanchezVillaverde
                     return true;
                 }
 
-                // Si el hijo es una familia, llamar recursivamente a la funci�n
+                // Si el hijo es una familia, llamar recursivamente a la función
                 if (hijo is Familia)
                 {
                     if (FamiliaContenida(familiaAEliminar, (Familia)hijo))
@@ -352,13 +353,13 @@ namespace TP_SanchezVillaverde
                     {
                         if (FamiliaContenida(comboFamilias.SelectedItem.ToString(), familia))
                         {
-                            throw new Exception("La familia est� en uso por otra familia");
+                            throw new Exception("La familia está en uso por otra familia");
                         }
                     }
 
                     if (permisoBLL.PerfilEnUso(comboFamilias.SelectedItem.ToString()))
                     {
-                        throw new Exception($"El perfil est� en uso: {comboFamilias.SelectedItem}");
+                        throw new Exception($"El perfil está en uso: {comboFamilias.SelectedItem}");
                     }
 
                     permisoBLL.EliminarFamilia(new Familia(comboFamilias.SelectedItem.ToString(), false));
@@ -397,10 +398,25 @@ namespace TP_SanchezVillaverde
             }
         }
 
-        public void ActualizarIdioma()
+        #region Patron Observer - Idiomas
+
+        public void ActualizarTextos()
         {
-            // Placeholder para actualizaci�n de idiomas
-            // Implementar seg�n tu sistema de traducci�n
+            this.Text = gestorIdioma.Traducir("PERF_TITULO");
+            labelTitulo.Text = gestorIdioma.Traducir("PERF_LBL_TITULO");
+            gbDatos.Text = gestorIdioma.Traducir("PERF_GB_DATOS");
+            gbPermisos.Text = gestorIdioma.Traducir("PERF_GB_PERMISOS");
+            gbArbol.Text = gestorIdioma.Traducir("PERF_GB_ARBOL");
+            labelNombre.Text = gestorIdioma.Traducir("PERF_LBL_NOMBRE");
+            labelRol.Text = gestorIdioma.Traducir("PERF_LBL_ROL_FAMILIA");
+            rBRol.Text = gestorIdioma.Traducir("PERF_RB_ROL");
+            rBFamilia.Text = gestorIdioma.Traducir("PERF_RB_FAMILIA");
+            button5.Text = gestorIdioma.Traducir("PERF_BTN_CREAR");
+            button7.Text = gestorIdioma.Traducir("COMUN_GUARDAR");
+            btnEliminar.Text = gestorIdioma.Traducir("PERF_BTN_ELIMINAR");
+            button1.Text = gestorIdioma.Traducir("COMUN_CANCELAR");
         }
+
+        #endregion
     }
 }
