@@ -75,6 +75,7 @@ namespace Acceso_DAL
             parametros[9] = new SqlParameter("@Activo", us.estado);
             parametros[10] = new SqlParameter("@Bloqueado", us.bloq);
 
+
             return Convert.ToInt32(conexDB.EscribirRetornar("SP_CrearUsuario", parametros));
         }
 

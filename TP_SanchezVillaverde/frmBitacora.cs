@@ -32,8 +32,8 @@ namespace TP_SanchezVillaverde
             dgvBitacora.ReadOnly = true;
             gestorIdioma.Suscribir(this);
             this.FormClosed += frmBitacora_FormClosed;
-            //cmbEvento.DataSource = Enum.GetValues(typeof(TipoAccion));
-            //LoadDefaultForm();
+           cmbEvento.DataSource = Enum.GetValues(typeof(TipoAccion));
+            LoadDefaultForm();
         }
 
         private void frmBitacora_FormClosed(object sender, FormClosedEventArgs e)

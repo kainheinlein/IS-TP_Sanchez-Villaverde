@@ -133,6 +133,21 @@ namespace TP_SanchezVillaverde
             tsReportes.Enabled = true;
             tsGestion.Enabled = true;
             cambiarClaveToolStripMenuItem.Enabled = true;
+
+            AplicarPermisos(usActual.rol);
+        }
+
+        private void AplicarPermisos(string rol)
+        {
+            gestionDeUsuariosToolStripMenuItem.Enabled = perfilBLL.TienePermiso(rol, TipoPermiso.GestionUsuarios.ToString());
+            tsPerfiles.Enabled = perfilBLL.TienePermiso(rol, TipoPermiso.GestionPerfiles.ToString());
+            backupToolStripMenuItem.Enabled = perfilBLL.TienePermiso(rol, TipoPermiso.GestionBackup.ToString());
+            restoreToolStripMenuItem.Enabled = perfilBLL.TienePermiso(rol, TipoPermiso.GestionBackup.ToString());
+            bitacoraToolStripMenuItem.Enabled = perfilBLL.TienePermiso(rol, TipoPermiso.GestionBitacora.ToString());
+            llenarCarritoToolStripMenuItem.Enabled = perfilBLL.TienePermiso(rol, TipoPermiso.LlenarCarrito.ToString());
+            realizarVentaToolStripMenuItem.Enabled = perfilBLL.TienePermiso(rol, TipoPermiso.RealizarCobro.ToString());
+            clienteToolStripMenuItem.Enabled = perfilBLL.TienePermiso(rol, TipoPermiso.RegistrarCliente.ToString());
+            productosToolStripMenuItem.Enabled = perfilBLL.TienePermiso(rol, TipoPermiso.GestionProductos.ToString());
         }
 
         public void FormDesconectado()

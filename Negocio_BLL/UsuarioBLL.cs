@@ -31,6 +31,7 @@ namespace Negocio_BLL
                 AuthOK = mpUsuario.Login(us);
                 if (AuthOK == LoginResult.LoginOK)
                 {
+                    us = mpUsuario.ExtraerUsuario(us.user);
                     SessionManager.GetInstance.Login(us);
                     bitacora.RegistrarBitacora(us.user, TipoAccion.Login);
                     maxIntentos = 3;
@@ -58,8 +59,9 @@ namespace Negocio_BLL
                 {
                     usuario.bloq = true;
                     usuario.pass = " ";
+                    usuario.pass = Encriptador.EncriptarIrrev(usuario.pass);
                     usuario.dvh = VerificadorIntegridad.CalcularDVH(usuario);
-                    mpUsuario.ActualizarUsuario(usuario);
+                    mpUsuario.ActualizarBloqueo(usuario);
                 }
                 bitacora.RegistrarBitacora(us.user, TipoAccion.BloqueoUsuario);
                 integridad.ActualizarDVV();
@@ -114,9 +116,12 @@ namespace Negocio_BLL
 
         public void Logout()
         {
-            bitacora.RegistrarBitacora(SessionManager.GetInstance.UsuarioActual().user, TipoAccion.Logout);
-            integridad.ActualizarDVV();
-            SessionManager.GetInstance.Logout();
+            if(SessionManager.Logged())
+            {
+                bitacora.RegistrarBitacora(SessionManager.GetInstance.UsuarioActual().user, TipoAccion.Logout);
+                integridad.ActualizarDVV();
+                SessionManager.GetInstance.Logout();
+            }
         }
 
         public void DesbloquearUS(UsuarioBE us)
