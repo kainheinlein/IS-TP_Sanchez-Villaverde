@@ -4,6 +4,7 @@ using Servicios;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -138,26 +139,32 @@ namespace Negocio_BLL
         {
             usuario = us;
             us.pass = Encriptador.EncriptarIrrev(us.pass);
-            us.cod =  mpUsuario.CrearUsuario(us);
+            string responsable = SessionManager.GetInstance.UsuarioActual().user;
+
+            us.cod = mpUsuario.CrearUsuarioConHistorial(us, responsable);
             us.dvh = VerificadorIntegridad.CalcularDVH(us);
             mpUsuario.ActualizarUsuario(usuario);
 
-        bitacora.RegistrarBitacora(SessionManager.GetInstance.UsuarioActual().user, TipoAccion.AltaUsuario);
+            bitacora.RegistrarBitacora(responsable, TipoAccion.AltaUsuario);
         }
+
         public void EliminarUs(UsuarioBE us)
         {
             us.dvh = VerificadorIntegridad.CalcularDVH(us);
-            mpUsuario.EliminarUsuario(us);
-            bitacora.RegistrarBitacora(SessionManager.GetInstance.UsuarioActual().user, TipoAccion.BajaUsuario);
+            string responsable = SessionManager.GetInstance.UsuarioActual().user;
+
+            mpUsuario.EliminarUsuarioConHistorial(us, responsable);
+            bitacora.RegistrarBitacora(responsable, TipoAccion.BajaUsuario);
         }
 
         public void ActualizarUsuario(UsuarioBE us)
         {
             us.dvh = VerificadorIntegridad.CalcularDVH(us);
-            mpUsuario.ActualizarUsuario(us);
             if(SessionManager.Logged())
             {
-                bitacora.RegistrarBitacora(SessionManager.GetInstance.UsuarioActual().user, TipoAccion.ModificacionUsuario);
+                string responsable = SessionManager.GetInstance.UsuarioActual().user;
+                mpUsuario.ActualizarUsuarioConHistorial(us, responsable, TipoAccion.ModificacionUsuario);
+                bitacora.RegistrarBitacora(responsable, TipoAccion.ModificacionUsuario);
             }
         }
 
