@@ -60,9 +60,9 @@ namespace Acceso_DAL
             conexDB.Escribir("SP_ActualizarBloqueado", parametros);
         }
 
-        public int CrearUsuario(UsuarioBE us)
+        public int CrearUsuarioConHistorial(UsuarioBE us, string usuarioResponsable)
         {
-            SqlParameter[] parametros = new SqlParameter[11];
+            SqlParameter[] parametros = new SqlParameter[12];
             parametros[0] = new SqlParameter("@DNI", us.dni);
             parametros[1] = new SqlParameter("@Nombre", us.nomb);
             parametros[2] = new SqlParameter("@Apellido", us.ape);
@@ -74,21 +74,22 @@ namespace Acceso_DAL
             parametros[8] = new SqlParameter("@Email", us.email);
             parametros[9] = new SqlParameter("@Activo", us.estado);
             parametros[10] = new SqlParameter("@Bloqueado", us.bloq);
-
+            parametros[11] = new SqlParameter("@UsuarioResponsable", usuarioResponsable);
 
             return Convert.ToInt32(conexDB.EscribirRetornar("SP_CrearUsuario", parametros));
         }
 
-        public void EliminarUsuario(UsuarioBE us)
+        public void EliminarUsuarioConHistorial(UsuarioBE us, string usuarioResponsable)
         {
-            SqlParameter[] parametros = new SqlParameter[2];
+            SqlParameter[] parametros = new SqlParameter[3];
             parametros[0] = new SqlParameter("@Usuario", us.user);
             parametros[1] = new SqlParameter("@DVH", us.dvh);
+            parametros[2] = new SqlParameter("@UsuarioResponsable", usuarioResponsable);
 
             conexDB.Escribir("SP_ElimUsuario", parametros);
         }
 
-        public void ActualizarUsuario(UsuarioBE us)
+        public void ActualizarUsuario(UsuarioBE us) //Uso exclusivo para actualizar DVH
         {
             SqlParameter[] parametros = new SqlParameter[12];
             parametros[0] = new SqlParameter("@Codigo", us.cod);
@@ -142,5 +143,28 @@ namespace Acceso_DAL
             }
             else return null;
         }
+
+        public void ActualizarUsuarioConHistorial(UsuarioBE us, string usuarioResponsable, TipoAccion accion)
+        {
+            SqlParameter[] parametros = new SqlParameter[14];
+            parametros[0] = new SqlParameter("@Codigo", us.cod);
+            parametros[1] = new SqlParameter("@DNI", us.dni);
+            parametros[2] = new SqlParameter("@Nombre", us.nomb);
+            parametros[3] = new SqlParameter("@Apellido", us.ape);
+            parametros[4] = new SqlParameter("@Usuario", us.user);
+            parametros[5] = new SqlParameter("@Rol", us.rol);
+            parametros[6] = new SqlParameter("@Direccion", us.dir);
+            parametros[7] = new SqlParameter("@Telefono", us.tel);
+            parametros[8] = new SqlParameter("@Email", us.email);
+            parametros[9] = new SqlParameter("@Activo", us.estado);
+            parametros[10] = new SqlParameter("@Bloqueado", us.bloq);
+            parametros[11] = new SqlParameter("@DVH", us.dvh);
+            parametros[12] = new SqlParameter("@UsuarioResponsable", usuarioResponsable);
+            parametros[13] = new SqlParameter("@Accion", (int)accion);
+
+            conexDB.Escribir("SP_ActualizarUsuarioConHistorial", parametros);
+        }
+
+
     }
 }

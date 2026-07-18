@@ -32,6 +32,7 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.tsAdmin = new System.Windows.Forms.ToolStripMenuItem();
             this.gestionDeUsuariosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.hToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tsPerfiles = new System.Windows.Forms.ToolStripMenuItem();
             this.idiomasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.backupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -81,6 +82,7 @@
             // 
             this.tsAdmin.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.gestionDeUsuariosToolStripMenuItem,
+            this.hToolStripMenuItem,
             this.tsPerfiles,
             this.idiomasToolStripMenuItem,
             this.backupToolStripMenuItem,
@@ -94,39 +96,46 @@
             // gestionDeUsuariosToolStripMenuItem
             // 
             this.gestionDeUsuariosToolStripMenuItem.Name = "gestionDeUsuariosToolStripMenuItem";
-            this.gestionDeUsuariosToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.gestionDeUsuariosToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
             this.gestionDeUsuariosToolStripMenuItem.Text = "Gestion de Usuarios";
             this.gestionDeUsuariosToolStripMenuItem.Click += new System.EventHandler(this.gestionDeUsuariosToolStripMenuItem_Click);
+            // 
+            // hToolStripMenuItem
+            // 
+            this.hToolStripMenuItem.Name = "hToolStripMenuItem";
+            this.hToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.hToolStripMenuItem.Text = "Historial de Cambios";
+            this.hToolStripMenuItem.Click += new System.EventHandler(this.hToolStripMenuItem_Click);
             // 
             // tsPerfiles
             // 
             this.tsPerfiles.Name = "tsPerfiles";
-            this.tsPerfiles.Size = new System.Drawing.Size(184, 22);
+            this.tsPerfiles.Size = new System.Drawing.Size(186, 22);
             this.tsPerfiles.Text = "Perfiles";
             this.tsPerfiles.Click += new System.EventHandler(this.perfilesToolStripMenuItem_Click);
             // 
             // idiomasToolStripMenuItem
             // 
             this.idiomasToolStripMenuItem.Name = "idiomasToolStripMenuItem";
-            this.idiomasToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.idiomasToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
             this.idiomasToolStripMenuItem.Text = "Idiomas";
             // 
             // backupToolStripMenuItem
             // 
             this.backupToolStripMenuItem.Name = "backupToolStripMenuItem";
-            this.backupToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.backupToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
             this.backupToolStripMenuItem.Text = "Backup";
             // 
             // restoreToolStripMenuItem
             // 
             this.restoreToolStripMenuItem.Name = "restoreToolStripMenuItem";
-            this.restoreToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.restoreToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
             this.restoreToolStripMenuItem.Text = "Restore";
             // 
             // bitacoraToolStripMenuItem
             // 
             this.bitacoraToolStripMenuItem.Name = "bitacoraToolStripMenuItem";
-            this.bitacoraToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.bitacoraToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
             this.bitacoraToolStripMenuItem.Text = "Bitacora";
             this.bitacoraToolStripMenuItem.Click += new System.EventHandler(this.bitacoraToolStripMenuItem_Click);
             // 
@@ -318,6 +327,7 @@
         private System.Windows.Forms.ToolStripMenuItem clienteToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem productosToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem proveedoresToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem hToolStripMenuItem;
     }
 }
 

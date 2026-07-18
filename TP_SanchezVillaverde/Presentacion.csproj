@@ -59,6 +59,12 @@
     <Compile Include="frmGestionPerfiles.Designer.cs">
       <DependentUpon>frmGestionPerfiles.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmHistorialUsuario.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmHistorialUsuario.Designer.cs">
+      <DependentUpon>frmHistorialUsuario.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmModClave.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -99,6 +105,9 @@
     </Compile>
     <EmbeddedResource Include="frmBitacora.resx">
       <DependentUpon>frmBitacora.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmHistorialUsuario.resx">
+      <DependentUpon>frmHistorialUsuario.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmLogin.resx">
       <DependentUpon>frmLogin.cs</DependentUpon>

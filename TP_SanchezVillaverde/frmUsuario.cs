@@ -177,9 +177,9 @@ namespace TP_SanchezVillaverde
             dgvUsuarios.Columns["pass"].Visible = false;
             dgvUsuarios.Columns["dvh"].Visible = false;
             dgvUsuarios.Columns["digito"].Visible = false;
-            dgvUsuarios.Columns["dni"].HeaderText = "DNI";
-            dgvUsuarios.Columns["nomb"].HeaderText = "Nombre";
             dgvUsuarios.Columns["ape"].HeaderText = "Apellido";
+            dgvUsuarios.Columns["nomb"].HeaderText = "Nombre";
+            dgvUsuarios.Columns["dni"].HeaderText = "DNI";
             dgvUsuarios.Columns["user"].HeaderText = "Usuario";
             dgvUsuarios.Columns["rol"].HeaderText = "Rol";
             dgvUsuarios.Columns["estado"].HeaderText = "Activo";

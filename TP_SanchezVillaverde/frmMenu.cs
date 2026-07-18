@@ -68,6 +68,7 @@ namespace TP_SanchezVillaverde
             proveedoresToolStripMenuItem.Text = gestorIdioma.Traducir("MENU_PROVEEDORES");
             tsReportes.Text = gestorIdioma.Traducir("MENU_TS_REPORTES");
             tsAyuda.Text = gestorIdioma.Traducir("MENU_TS_AYUDA");
+            hToolStripMenuItem.Text = gestorIdioma.Traducir("MENU_HISTORIAL");
 
             if (SessionManager.Logged() && SessionManager.GetInstance.UsuarioActual() != null)
             {
@@ -241,6 +242,12 @@ namespace TP_SanchezVillaverde
             frmGestionPerfiles frmperfil = new frmGestionPerfiles();
             frmperfil.ShowDialog();
             //OpenForm(tsPerfiles, new frmGestionPerfiles());
+        }
+
+        private void hToolStripMenuItem_Click(object sender, System.EventArgs e)
+        {
+            frmHistorialUsuario frmhistorial = new frmHistorialUsuario(SessionManager.GetInstance.UsuarioActual().cod);
+            frmhistorial.ShowDialog();
         }
     }
 }
